@@ -15,11 +15,20 @@
     self = [self init];
     if(self && block)
     {
-        id mutableCopy = [self mutableCopy];
-        block(mutableCopy);
-        self = [mutableCopy copy];
+        self = [self jkl_copyToUpdateWithBuilderBlock:block];
     }
     return self;
+}
+
+- (instancetype) jkl_copyToUpdateWithBuilderBlock:(void(^)(id mutableCopy))block
+{
+    id mutableCopy = [self mutableCopy];
+    
+    if(block)
+    {
+        block(mutableCopy);
+    }
+    return [mutableCopy copy];
 }
 
 @end

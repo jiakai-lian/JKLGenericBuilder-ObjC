@@ -11,5 +11,6 @@
 @interface NSObject (JKLGenericBuilder)
 
 - (instancetype) initWithBuilderBlock:(void(^)(id mutableCopy))block;
+- (instancetype) jkl_copyToUpdateWithBuilderBlock:(void(^)(id mutableCopy))block;
 
 @end

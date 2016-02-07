@@ -41,10 +41,23 @@ describe(@"these will pass", ^{
         expect(order.timeStamp).to.equal(timeStamp);
     });
     
-    it(@"will wait and succeed", ^{
-        waitUntil(^(DoneCallback done) {
-            done();
-        });
+    it(@"can change values through JKLGenericBuilder", ^{
+        order = [[JKLOrder alloc] initWithBuilderBlock:^(JKLMutableOrder * mutableCopy){
+            mutableCopy.orderId = orderId;
+            mutableCopy.timeStamp= timeStamp;
+        }];
+        
+        sleep(1);
+        
+        NSDate * newTimeStamp = [NSDate date];
+        
+        JKLOrder * newOrder = [order jkl_copyToUpdateWithBuilderBlock:^(JKLMutableOrder * mutableCopy){
+            mutableCopy.timeStamp = newTimeStamp;
+        }];
+        
+        expect(newOrder).toNot.beNil();
+        expect(newOrder.orderId).to.equal(orderId);
+        expect(newOrder.timeStamp).to.equal(newTimeStamp);
     });
 });
 
